@@ -1,0 +1,13 @@
+# ide folders
+.idea/
+.vscode/
+venv/
+
+# not project files
+__pycache__
+.pytest_cache/
+.DS_Store
+.env
+/drafts
+/drivers
+draft
