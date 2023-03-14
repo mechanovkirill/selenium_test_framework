@@ -1,32 +1,26 @@
+from framework.pages.main_page import MainPage
 from framework.pages.game_page import GamePage
 
 
-class TestHelpForm:
-
+class TestGamePage:
     def test_help_form(self, driver):
+        main_page = MainPage(driver)
         game_page = GamePage(driver)
 
-        game_page.navigate_to_main_page()
-        is_main_page_opened = game_page.is_main_page_opened()
-        assert is_main_page_opened is True, "Main page is not open"
-
-        game_page.click_to_here_link()
-        is_game_page_opened = game_page.is_game_page_opened()
-        assert is_game_page_opened is True, "Game page is not open"
-
+        main_page.open()
+        assert main_page.is_open() is True, "Main page is not opened"
+        main_page.click_to_here_link()
+        assert game_page.is_open() is True, "Game page is not open"
         game_page.click_to_help_button()
-        is_help_response_displayed = game_page.is_help_response_displayed()
-        assert is_help_response_displayed is True, 'Help response is not displayed'
+        assert game_page.is_help_response_displayed() is True, 'Help response is not displayed'
 
     def test_timer_correct_starts(self, driver):
+        main_page = MainPage(driver)
         game_page = GamePage(driver)
 
-        game_page.navigate_to_main_page()
-        is_main_page_opened = game_page.is_main_page_opened()
-        assert is_main_page_opened is True, "Main page is not open"
-
-        game_page.click_to_here_link()
+        main_page.open()
+        assert main_page.is_open() is True, "Main page is not opened"
+        main_page.click_to_here_link()
+        assert game_page.is_open() is True, "Game page is not open"
         timer_value = game_page.get_timer_value()
-        is_game_page_opened = game_page.is_game_page_opened()
-        assert is_game_page_opened is True, "Game page is not open"
         assert timer_value == '00:00:00', "Timer starts not from zero"
