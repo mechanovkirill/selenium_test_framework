@@ -1,7 +1,14 @@
+import traceback
+from selenium.common import WebDriverException
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait as WDWait
 from selenium.webdriver.support import expected_conditions as exp_cond
 from selenium.webdriver.common.by import By
+import logging.config
+from framework.utils.logging import LOGGING_CONFIG
+
+logging.config.dictConfig(LOGGING_CONFIG)
+logger = logging.getLogger(__name__)
 
 
 class BaseElement:
@@ -11,24 +18,31 @@ class BaseElement:
         self.driver = driver
 
     def _find_element(self) -> WebElement:
-        return WDWait(self.driver, 10).until(exp_cond.presence_of_element_located(self.locator))
+        try:
+            return WDWait(self.driver, 10).until(exp_cond.presence_of_element_located(self.locator))
+        except WebDriverException:
+            logger.warning(f"BaseElement _find_element failed {self.name} {traceback.format_exc()}")
 
     def click(self) -> None:
-        if WDWait(self.driver, 10).until(exp_cond.presence_of_element_located(self.locator)).is_enabled():
-            # logger.info(f"{self.name}") #  TODO:log
-            WDWait(self.driver, 10).until(exp_cond.element_to_be_clickable(self.locator)).click()
-        else:
-            # logger.error
-            pass
+        try:
+            if WDWait(self.driver, 10).until(exp_cond.presence_of_element_located(self.locator)).is_enabled():
+                WDWait(self.driver, 10).until(exp_cond.element_to_be_clickable(self.locator)).click()
+                logger.info(f"Click to {self.name}")
+            else:
+                logger.info(f"{self.name} element is not enabled")
+        except WebDriverException:
+            logger.warning(f"BaseElement click failed {self.name} {traceback.format_exc()}")
 
     def is_displayed(self) -> bool:
-        return WDWait(self.driver, 10).until(exp_cond.visibility_of_element_located(self.locator)).is_displayed()
-
-    def get_attribute(self, attribute: str) -> str:
-        return self._find_element().get_attribute(attribute)
-
-    def get_property(self, property_: str) -> str:
-        return self._find_element().get_property(property_)
+        try:
+            logger.info(f"is_displayed applied to {self.name}")
+            return WDWait(self.driver, 10).until(exp_cond.visibility_of_element_located(self.locator)).is_displayed()
+        except WebDriverException:
+            logger.warning(f"is_displayed {self.name} failed {traceback.format_exc()}")
 
     def get_text(self) -> str:
-        return self._find_element().text
+        try:
+            logger.info(f"get_text applied to {self.name}")
+            return self._find_element().text
+        except WebDriverException:
+            logger.warning(f"get_text {self.name} failed {traceback.format_exc()}")

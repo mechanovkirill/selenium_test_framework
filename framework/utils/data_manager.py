@@ -14,4 +14,7 @@ with open(conf_file_json) as conf:
 class ConfigData:
     host_url: str = config['Host URL']
     time: float = config['Explicit_wait_time']
-    browser: str = config['browser']
+    browser: str = config['Browser']
+    debug: str = config['Debug']
+
+
