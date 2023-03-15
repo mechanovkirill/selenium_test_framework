@@ -1,5 +1,5 @@
-from framework.pages.main_page import MainPage
-from framework.pages.game_page import GamePage
+from test_project.pages.main_page import MainPage
+from test_project.pages.game_page import GamePage
 
 
 class TestGamePage:

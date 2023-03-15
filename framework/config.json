@@ -1,5 +1,6 @@
 {
   "Host URL": "https://userinyerface.com/",
   "browser": "Chrome",
-  "Explicit_wait_time": 10
+  "Explicit_wait_time": 10,
+  "Debug": "True"
 }
