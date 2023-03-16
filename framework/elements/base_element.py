@@ -4,8 +4,8 @@ from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.support.wait import WebDriverWait as WDWait
 from selenium.webdriver.support import expected_conditions as exp_cond
 from selenium.webdriver.common.by import By
+from framework.logging import LOGGING_CONFIG
 import logging.config
-from framework.utils.logging import LOGGING_CONFIG
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
@@ -19,9 +19,10 @@ class BaseElement:
 
     def _find_element(self) -> WebElement:
         try:
+            logger.info(f"finding element {self.name}")
             return WDWait(self.driver, 10).until(exp_cond.presence_of_element_located(self.locator))
         except WebDriverException:
-            logger.warning(f"BaseElement _find_element failed {self.name} {traceback.format_exc()}")
+            logger.warning(f"_find_element {self.name} failed  {traceback.format_exc()}")
 
     def click(self) -> None:
         try:
