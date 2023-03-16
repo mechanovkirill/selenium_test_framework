@@ -8,16 +8,15 @@ class GamePage(BaseForm):
     HELP_RESPONSE_LOCATOR = (By.XPATH, "//div[@class='help-form__response' and contains(text(), 'Please wait')]")
     TIMER_LOCATOR = (By.XPATH, "//div[contains(@class, 'timer')]")
 
-    def __init__(self, driver) -> None:
+    def __init__(self) -> None:
         super().__init__(
-            driver=driver,
             unique_locator=(By.XPATH, "//input[contains(@placeholder, 'Password')]"),
             name='Game_Page'
         )
         # elements:
-        self.help_response_div = Element(self.driver, self.HELP_RESPONSE_LOCATOR, 'Div Help Response')
-        self.help_button = Button(self.driver, self.HELP_BUTTON_LOCATOR, 'Help Button')
-        self.timer_div = Element(self.driver, self.TIMER_LOCATOR, 'Div Timer')
+        self.help_response_div = Element(self.HELP_RESPONSE_LOCATOR, 'Div Help Response')
+        self.help_button = Button(self.HELP_BUTTON_LOCATOR, 'Help Button')
+        self.timer_div = Element(self.TIMER_LOCATOR, 'Div Timer')
 
     def click_to_help_button(self) -> None:
         self.help_button.click()

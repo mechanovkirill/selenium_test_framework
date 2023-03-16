@@ -1,12 +1,9 @@
 import pytest
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from framework.browser import Browser
 
 
-@pytest.fixture(scope='function')
-def driver():
-    driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-    driver.maximize_window()
-    yield driver
-    driver.quit()
+@pytest.fixture(scope='function', autouse=True)
+def driver_quit():
+    """Quite driver after every each test"""
+    yield
+    Browser().quit()

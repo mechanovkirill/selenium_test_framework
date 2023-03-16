@@ -3,9 +3,9 @@ from test_project.pages.game_page import GamePage
 
 
 class TestGamePage:
-    def test_help_form(self, driver):
-        main_page = MainPage(driver)
-        game_page = GamePage(driver)
+    def test_help_form(self):
+        main_page = MainPage()
+        game_page = GamePage()
 
         main_page.open()
         assert main_page.is_open() is True, "Main page is not opened"
@@ -14,9 +14,9 @@ class TestGamePage:
         game_page.click_to_help_button()
         assert game_page.is_help_response_displayed() is True, 'Help response is not displayed'
 
-    def test_timer_correct_starts(self, driver):
-        main_page = MainPage(driver)
-        game_page = GamePage(driver)
+    def test_timer_correct_starts(self):
+        main_page = MainPage()
+        game_page = GamePage()
 
         main_page.open()
         assert main_page.is_open() is True, "Main page is not opened"
