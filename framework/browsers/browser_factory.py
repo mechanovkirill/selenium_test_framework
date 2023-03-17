@@ -5,28 +5,65 @@ from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.firefox.service import Service as FirefoxService
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.firefox.options import Options as FireFox_options
 from framework.utils.data_manager import ConfigData
 import logging
 
 logger = logging.getLogger(__name__)
 
-config = ConfigData()
-
 
 class BrowserFactory:
-    def __init__(self, config_=config):
-        self.browser_type = config_.browser
+    """Receives are options from config.json file and return tuple contained driver instance according to configuration
+    and dataclass with configuration.
+    Supported browsers are Chrome, Firefox."""
 
-    def get_driver_options(self):
-        pass
+    def __init__(self, config_=ConfigData()):
+        self.config: ConfigData = config_
+        self.browser_type: str = self.config.browser
+        self.browsers_options: tuple[dict] = self.config.browsers_options
+        self.chrome_options: tuple[str] = self.config.chrome_options
+        self.firefox_options: tuple[str] = self.config.firefox_options
 
-    def get_chosen_driver(self) -> webdriver:
+    def _get_browser_options(self) -> Options:
+        try:
+            options = None
+
+            if self.browser_type.lower() == "chrome":
+                options = Options()
+                for option in self.chrome_options:
+                    options.add_argument(argument=option)
+            elif self.browser_type.lower() == "firefox":
+                options = FireFox_options()
+                for option in self.firefox_options:
+                    options.add_argument(argument=option)
+            for opt in self.browsers_options:
+                if "page_load_strategy" in opt:
+                    options.page_load_strategy = opt['page_load_strategy']
+                if "browser_name" in opt:
+                    options.browser_name = opt['browser_name']
+
+            return options
+
+        except Exception:
+            logger.error(f"Getting browser options failed {traceback.format_exc()}")
+
+    def get_chosen_driver_and_config(self) -> webdriver:
         try:
             if self.browser_type.lower() == "chrome":
-                return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-            if self.browser_type.lower() == "firefox":
-                return webdriver.Firefox(service=FirefoxService(GeckoDriverManager().install()))
+                return (webdriver.Chrome(
+                    service=ChromeService(ChromeDriverManager().install()),
+                    options=self._get_browser_options()
+                ), self.config)
+            elif self.browser_type.lower() == "firefox":
+                return (webdriver.Firefox(
+                    service=FirefoxService(GeckoDriverManager().install()),
+                    options=self._get_browser_options()
+                ), self.config)
             else:
-                logger.error(f"Driver not found for browser {self.browser_type}. Check config.json.")
+                logger.error(
+                    f"Driver is not found for browser {self.browser_type}. "
+                    f"Probably browser is not supported. Check config.json and class documentation."
+                )
         except WebDriverException:
             logger.error(f"Getting driver error {traceback.format_exc()}")
