@@ -1,7 +1,7 @@
 from selenium.webdriver.support.wait import WebDriverWait as WDWait
 from selenium.webdriver.support import expected_conditions as exp_cond
 from selenium.webdriver.common.by import By
-from test_project.conftest import Browser
+from framework.browsers.browser import Browser
 
 
 class BaseForm:

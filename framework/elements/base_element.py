@@ -6,7 +6,7 @@ from selenium.webdriver.support import expected_conditions as exp_cond
 from selenium.webdriver.common.by import By
 from framework.logging import LOGGING_CONFIG
 import logging.config
-from test_project.conftest import Browser
+from framework.browsers.browser import Browser
 
 logging.config.dictConfig(LOGGING_CONFIG)
 logger = logging.getLogger(__name__)
@@ -16,7 +16,8 @@ class BaseElement:
     def __init__(self, locator: tuple[By, str], name: str):
         self.locator = locator
         self.name = name
-        self.driver = Browser().get_driver()
+        self.browser = Browser()
+        self.driver = self.browser.get_driver()
 
     def _find_element(self) -> WebElement:
         try:

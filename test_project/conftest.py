@@ -1,9 +1,10 @@
 import pytest
-from framework.browser import Browser
+from framework.browsers.browser import Browser
 
 
 @pytest.fixture(scope='function', autouse=True)
 def driver_quit():
-    """Quite driver after every each test"""
+    """Maximize the browsers window when running each test and exit the driver after each test"""
+    Browser().get_driver().maximize_window()
     yield
     Browser().quit()
