@@ -1,6 +1,6 @@
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
-from framework.elements.elements import Element, Button
+from framework.elements.elements import Link, Button, Div
 
 
 class GamePage(BaseForm):
@@ -14,9 +14,9 @@ class GamePage(BaseForm):
             name='Game_Page'
         )
         # elements:
-        self.help_response_div = Element(self.HELP_RESPONSE_LOCATOR, 'Div Help Response')
+        self.help_response_div = Div(self.HELP_RESPONSE_LOCATOR, 'Div Help Response')
         self.help_button = Button(self.HELP_BUTTON_LOCATOR, 'Help Button')
-        self.timer_div = Element(self.TIMER_LOCATOR, 'Div Timer')
+        self.timer_div = Div(self.TIMER_LOCATOR, 'Div Timer')
 
     def click_to_help_button(self) -> None:
         self.help_button.click()

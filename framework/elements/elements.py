@@ -6,9 +6,16 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-class Element(BaseElement):
+class Link(BaseElement):
     pass
 
 
 class Button(BaseElement):
     pass
+
+
+class Div(BaseElement):
+    pass
+
+
+

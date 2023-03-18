@@ -1,7 +1,7 @@
 from framework.utils.data_manager import ConfigData
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
-from framework.elements.elements import Element
+from framework.elements.elements import Link
 
 config = ConfigData()
 
@@ -16,7 +16,7 @@ class MainPage(BaseForm):
         )
         self.url = config.host_url
         # elements:
-        self.here_link = Element(self.HERE_LINK_LOCATOR, 'Here Link')
+        self.here_link = Link(self.HERE_LINK_LOCATOR, 'Here Link')
 
     def open(self) -> None:
         self.driver.get(self.url)
