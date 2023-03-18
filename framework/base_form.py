@@ -1,7 +1,6 @@
-from selenium.webdriver.support.wait import WebDriverWait as WDWait
-from selenium.webdriver.support import expected_conditions as exp_cond
 from selenium.webdriver.common.by import By
 from framework.browsers.browser import Browser
+from framework.conditional_waits import Waits
 
 
 class BaseForm:
@@ -10,9 +9,7 @@ class BaseForm:
         self.unique_locator = unique_locator
         self.browser = Browser()
         self.driver = self.browser.get_driver()
+        self.wait_for = Waits(driver_=self.driver, config_=self.browser.config)
 
-    def is_open(self) -> bool:  # TODO: timeout
-        is_opened = WDWait(self.driver, 10).until(
-            exp_cond.visibility_of_element_located(self.unique_locator)
-        ).is_displayed()
-        return is_opened
+    def is_open(self) -> bool:
+        return self.wait_for.visibility_of_element_located(self.unique_locator).is_displayed()

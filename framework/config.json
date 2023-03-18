@@ -4,6 +4,7 @@
   "Common_browsers_options": [{"page_load_strategy": "normal"}],
   "Chrome_options": [],
   "Firefox_options": [],
-  "Explicit_wait_time": 10,
+  "Explicit_wait_timeout": 10,
+  "Explicit_wait_poll_frequency": 1,
   "Debug": "True"
 }

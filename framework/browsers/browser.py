@@ -1,8 +1,7 @@
-from selenium import webdriver
+from selenium.webdriver.remote import webdriver
 from framework.browsers.browser_factory import BrowserFactory
-import logging
-
 from framework.utils.data_manager import ConfigData
+import logging
 
 logger = logging.getLogger(__name__)
 
@@ -20,7 +19,7 @@ class Browser:
             cls.driver = factory_data[0]
             cls.config = factory_data[1]
             logger.info(
-                f"Launch [{cls.config.browser}] browser with options {cls.config.browsers_options} "
+                f"| Launch [{cls.config.browser}] browser with options {cls.config.browsers_options} "
                 f"{cls.config.chrome_options if cls.config.browser == 'Chrome' else cls.config.firefox_options}."
             )
             return cls.driver
@@ -28,7 +27,7 @@ class Browser:
     def quit(self) -> None:
         self.get_driver().quit()
         Browser.driver = None
-        logger.info(f"Browser quit.")
+        logger.info(f"| Browser quit.")
 
     def go_to_url(self, url) -> None:
         self.get_driver().get(url)
