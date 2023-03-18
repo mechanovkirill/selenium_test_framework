@@ -7,7 +7,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.firefox import GeckoDriverManager
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FireFox_options
-from framework.utils.data_manager import ConfigData
+from framework.utils.data_manager import DataManager, ConfigData
 import logging
 
 logger = logging.getLogger(__name__)
@@ -18,8 +18,8 @@ class BrowserFactory:
     and dataclass with configuration.
     Supported browsers are Chrome, Firefox."""
 
-    def __init__(self, config_=ConfigData()):
-        self.config: ConfigData = config_
+    def __init__(self, config_=DataManager()):
+        self.config: ConfigData = config_.get_config_data()
         self.browser_type: str = self.config.browser
         self.browsers_options: tuple[dict] = self.config.browsers_options
         self.chrome_options: tuple[str] = self.config.chrome_options

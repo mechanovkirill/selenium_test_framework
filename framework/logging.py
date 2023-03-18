@@ -1,6 +1,6 @@
-from framework.utils.data_manager import ConfigData, BASE_DIR
+from framework.utils.data_manager import DataManager, BASE_DIR
 
-DEBUG = ConfigData().debug
+DEBUG = DataManager().get_config_data().debug
 
 LOGGING_CONFIG = {
     'version': 1,

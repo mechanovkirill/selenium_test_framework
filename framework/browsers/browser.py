@@ -29,8 +29,8 @@ class Browser:
         Browser.driver = None
         logger.info(f"| Browser quit.")
 
-    def go_to_url(self, url) -> None:
-        self.get_driver().get(url)
-
-    def take_screenshot(self, filename):  # TODO typing
-        self.get_driver().save_screenshot(filename)
+    # def go_to_url(self, url) -> None:
+    #     self.get_driver().get(url)
+    #
+    # def take_screenshot(self, filename):  # TODO typing
+    #     self.get_driver().save_screenshot(filename)

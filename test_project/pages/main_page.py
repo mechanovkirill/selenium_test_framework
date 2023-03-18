@@ -1,9 +1,8 @@
-from framework.utils.data_manager import ConfigData
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
 from framework.elements.elements import Link
 
-config = ConfigData()
+from framework.utils.data_manager import DataManager
 
 
 class MainPage(BaseForm):
@@ -14,7 +13,7 @@ class MainPage(BaseForm):
             unique_locator=(By.XPATH, "//a[@class='start__link' and (@href='/game.html' or contains(text(), 'HERE'))]"),
             name='Main Page'
         )
-        self.url = config.host_url
+        self.url = DataManager().get_test_data().host_url
         # elements:
         self.here_link = Link(self.HERE_LINK_LOCATOR, 'Here Link')
 

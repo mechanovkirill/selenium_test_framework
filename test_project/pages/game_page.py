@@ -1,6 +1,6 @@
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
-from framework.elements.elements import Link, Button, Div
+from framework.elements.elements import Button, Div
 
 
 class GamePage(BaseForm):
