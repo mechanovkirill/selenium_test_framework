@@ -21,8 +21,9 @@ class BaseElement:
 
     def _find_element(self) -> WebElement:
         try:
+            element = self.wait_for.element_to_be_present(self.locator, self.name)
             logger.info(f"| Finding an element {self.name}")
-            return self.wait_for.element_to_be_present(self.locator, self.name)
+            return element
         except WebDriverException:
             logger.warning(f"| Method _find_element {self.name} failed  {traceback.format_exc()}")
 
@@ -38,14 +39,16 @@ class BaseElement:
 
     def is_displayed(self) -> bool:
         try:
+            is_displayed = self.wait_for.visibility_of_element_located(self.locator, self.name).is_displayed()
             logger.info(f"| Method is_displayed applied to {self.name}")
-            return self.wait_for.visibility_of_element_located(self.locator, self.name).is_displayed()
+            return is_displayed
         except WebDriverException:
             logger.warning(f"| Method is_displayed {self.name} failed {traceback.format_exc()}")
 
     def get_text(self) -> str:
         try:
+            text = self._find_element().text
             logger.info(f"| Method get_text applied to {self.name}")
-            return self._find_element().text
+            return text
         except WebDriverException:
             logger.warning(f"| Method get_text {self.name} failed {traceback.format_exc()}")

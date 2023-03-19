@@ -1,5 +1,6 @@
 from selenium.webdriver.remote import webdriver
 from framework.browsers.browser_factory import BrowserFactory
+from framework.browsers.js_scripts import JSActions
 from framework.utils.data_manager import ConfigData
 import logging
 
@@ -29,8 +30,8 @@ class Browser:
         Browser.driver = None
         logger.info(f"| Browser quit.")
 
-    # def go_to_url(self, url) -> None:
-    #     self.get_driver().get(url)
-    #
-    # def take_screenshot(self, filename):  # TODO typing
-    #     self.get_driver().save_screenshot(filename)
+    def go_to_url(self, url) -> None:
+        self.get_driver().get(url)
+
+    def js_scroll_into_view(self, element) -> None:
+        JSActions(self.get_driver()).scroll_into_view(element)
