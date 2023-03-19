@@ -18,25 +18,28 @@ class Waits:
 
     def web_driver_wait(
             self,
-            condition_name: str,
+            condition_name: str = '',
             ignored_exceptions: Iterable[Type[Exception]] = None,
     ) -> WebDriverWait:
-        """condition_name- is just for logging!!!"""
+        """condition_name- is just for logging. Is not required."""
         logger.info(f"| Wait for {condition_name}")
 
         return WebDriverWait(self.driver, self.timeout, self.polling_interval, ignored_exceptions=ignored_exceptions)
 
     def element_to_be_present(self, locator: tuple[By, str], name: str = "") -> webelement:
+        """name param is not required"""
         return self.web_driver_wait(f"element_to_be_present {name}").until(
             expected_conditions.presence_of_element_located(locator)
         )
 
     def element_to_be_clickable(self, locator: tuple[By, str], name: str = "") -> webelement:
+        """name param is not required"""
         return self.web_driver_wait(f"element_to_be_clickable {name}").until(
             expected_conditions.element_to_be_clickable(locator)
         )
 
     def visibility_of_element_located(self, locator: tuple[By, str], name: str = "") -> webelement:
+        """name param is not required"""
         return self.web_driver_wait(f"visibility_of_element_located {name}").until(
             (expected_conditions.visibility_of_element_located(locator))
         )

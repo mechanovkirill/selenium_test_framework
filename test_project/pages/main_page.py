@@ -13,7 +13,7 @@ class MainPage(BaseForm):
             unique_locator=(By.XPATH, "//a[@class='start__link' and (@href='/game.html' or contains(text(), 'HERE'))]"),
             name='Main Page'
         )
-        self.url = DataManager().get_test_data().host_url
+        self.url = DataManager().get_main_page_test_data().host_url
         # elements:
         self.here_link = Link(self.HERE_LINK_LOCATOR, 'Here Link')
 

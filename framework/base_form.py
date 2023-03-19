@@ -12,4 +12,4 @@ class BaseForm:
         self.wait_for = Waits(driver_=self.driver, config_=self.browser.config)
 
     def is_open(self) -> bool:
-        return self.wait_for.visibility_of_element_located(self.unique_locator).is_displayed()
+        return self.wait_for.visibility_of_element_located(self.unique_locator, self.name).is_displayed()
