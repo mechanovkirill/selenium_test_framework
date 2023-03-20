@@ -30,9 +30,9 @@ class MainPageTestData:
 
 @dataclass
 class GamePageTestData:
-    email_name: str
-    email_domain: str
-    password: str
+    valid_rand_email_name: str
+    valid_rand_email_domain: str
+    valid_rand_password: str
 
 
 class DataManager:
@@ -69,8 +69,8 @@ class DataManager:
         e_dom = DataGenerator().get_rand_valid_email_domain()
         password = DataGenerator().get_rand_valid_passw_for_a1qa_task() + random.choice(e_name)
         test_data = GamePageTestData(
-            email_name=e_name,
-            email_domain=e_dom,
-            password=password
+            valid_rand_email_name=e_name,
+            valid_rand_email_domain=e_dom,
+            valid_rand_password=password
         )
         return test_data

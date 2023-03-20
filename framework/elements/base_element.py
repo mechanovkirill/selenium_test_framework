@@ -22,7 +22,7 @@ class BaseElement:
     def _find_element(self) -> WebElement:
         try:
             element = self.wait_for.element_to_be_present(self.locator, self.name)
-            logger.info(f"| Finding an element {self.name}")
+            logger.info(f"| Find an element {self.name}")
             return element
         except WebDriverException:
             logger.warning(f"| Method _find_element {self.name} failed  {traceback.format_exc()}")

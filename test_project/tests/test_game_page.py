@@ -1,6 +1,8 @@
 from test_project.pages.main_page import MainPage
 from test_project.pages.game_page import GamePage
 
+import time
+
 
 class TestGamePage:
     def test_help_form(self):
@@ -24,3 +26,15 @@ class TestGamePage:
         assert game_page.is_open() is True, "Game page is not open"
         timer_value = game_page.get_timer_value()
         assert timer_value == '00:00:00', "Timer starts not from zero"
+
+    def test_valid_password(self):
+        main_page = MainPage()
+        game_page = GamePage()
+
+        main_page.open()
+        assert main_page.is_open() is True, "Main page is not opened"
+        main_page.click_to_here_link()
+        assert game_page.is_open() is True, "Game page is not open"
+        game_page.input_random_valid_email()
+
+        time.sleep(4)

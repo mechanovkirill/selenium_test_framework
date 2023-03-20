@@ -18,4 +18,18 @@ class Div(BaseElement):
     pass
 
 
+class Input(BaseElement):
+    def clear(self) -> None:
+        try:
+            self.wait_for.visibility_of_element_located(self.locator, self.name).clear()
+            logger.info(f'| {self.name} clear text.')
+        except WebDriverException:
+            logger.warning(f'| Clearing text failed to {self.name} {traceback.format_exc()}.')
+
+    def fill_the_field(self, value: str | float) -> None:
+        try:
+            self.wait_for.visibility_of_element_located(self.locator, self.name).send_keys(value)
+            logger.info(f'| {self.name} sending a text.')
+        except WebDriverException:
+            logger.warning(f'| Filling the fill failed to {self.name} {traceback.format_exc()}.')
 

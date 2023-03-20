@@ -100,10 +100,9 @@ class DataGenerator:
 
     def get_rand_valid_email_domain(self) -> str:
         e_dom = self.generate_random_string_with_chosen_char_types(
-            min_len=4,
-            max_len=10,
+            min_len=2,
+            max_len=8,
             ascii_lower_letters=True,
         )
-        e_dom = e_dom[:-2] + "." + e_dom[-2:]
         logger.info(f"Generated password {e_dom}")
         return e_dom

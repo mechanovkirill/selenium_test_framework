@@ -1,7 +1,7 @@
 {
   "Browser": "Chrome",
   "Common_browsers_options": [{"page_load_strategy": "normal"}],
-  "Chrome_options": ["--headless=new"],
+  "Chrome_options": ["excludeSwitches"],
   "Firefox_options": [],
 
   "Explicit_wait_timeout": 10,
