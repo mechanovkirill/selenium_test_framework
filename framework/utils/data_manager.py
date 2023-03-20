@@ -6,8 +6,8 @@ from pathlib import Path
 from framework.utils.random_data_generator import DataGenerator
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
-CONF_FILE_JSON = os.path.join(BASE_DIR, "framework", "config.json")
-TEST_DATA_JSON = os.path.join(BASE_DIR, "framework", "test_data.json")
+CONF_FILE_JSON = os.path.join(BASE_DIR, "config.json")
+TEST_DATA_JSON = os.path.join(BASE_DIR, "test_data.json")
 
 
 @dataclass
