@@ -33,3 +33,6 @@ class Input(BaseElement):
         except WebDriverException:
             logger.warning(f'| Filling the fill failed to {self.name} {traceback.format_exc()}.')
 
+
+class Span(BaseElement):
+    pass

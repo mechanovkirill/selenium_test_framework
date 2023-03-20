@@ -3,7 +3,7 @@ from selenium.common import WebDriverException
 from selenium.webdriver.remote.webelement import WebElement
 from selenium.webdriver.common.by import By
 from framework.logging import LOGGING_CONFIG
-from framework.browsers.browser import Browser
+from framework.browsers import browser
 from framework.conditional_waits import Waits
 import logging.config
 
@@ -15,7 +15,7 @@ class BaseElement:
     def __init__(self, locator: tuple[By, str], name: str):
         self.locator: tuple[By, str] = locator
         self.name: str = name
-        self.browser = Browser()
+        self.browser = browser.Browser()
         self.driver = self.browser.get_driver()
         self.wait_for = Waits(driver_=self.driver, config_=self.browser.config)
 

@@ -84,7 +84,7 @@ class DataGenerator:
             digits_=True,
             cyrillic_symbols=True
         )
-        logger.info(f"Generated password {passw}")
+        logger.info(f"Generated valid password {passw}")
         return passw
 
     def get_rand_valid_email_name(self) -> str:
@@ -95,7 +95,7 @@ class DataGenerator:
             ascii_upper_letters=True,
             digits_=True,
         )
-        logger.info(f"Generated password {e_name}")
+        logger.info(f"Generated valid email name {e_name}")
         return e_name
 
     def get_rand_valid_email_domain(self) -> str:
@@ -104,5 +104,5 @@ class DataGenerator:
             max_len=8,
             ascii_lower_letters=True,
         )
-        logger.info(f"Generated password {e_dom}")
+        logger.info(f"Generated valid email domain {e_dom}")
         return e_dom
