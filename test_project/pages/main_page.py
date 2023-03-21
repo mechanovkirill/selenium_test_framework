@@ -17,7 +17,7 @@ class MainPage(BaseForm):
         self.here_link = Link(self.HERE_LINK_LOCATOR, 'Here Link')
 
     def open(self) -> None:
-        self.driver.get(self.url)
+        self.browser.go_to_url(self.url)
 
     def click_to_here_link(self) -> None:
         self.here_link.click()

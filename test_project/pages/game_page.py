@@ -67,6 +67,6 @@ class GamePage(BaseForm):
     def card_2_is_open(self) -> bool:
         return self.card_2_download_button.is_displayed()
 
-    def input_invalid_password(self, password) -> None:
+    def input_random_invalid_password(self, password) -> None:
         self.password_input.clear()
         self.password_input.fill_the_field(password)
