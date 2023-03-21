@@ -39,6 +39,7 @@ class GamePageTestData:
 class DataManager:
     """DataManager read data from json files, put data to dataclasses
     and hand over dataclasses to other project classes."""
+
     @staticmethod
     def _json_read(json_file: str) -> dict:
         with open(json_file, 'r') as file:
@@ -95,6 +96,6 @@ class DataManager:
             valid_rand_email_name=e_name,
             valid_rand_email_domain=e_dom,
             valid_rand_password=password,
-            invalid_passwords=invalid_password
+            invalid_passwords=invalid_password,
         )
         return test_data

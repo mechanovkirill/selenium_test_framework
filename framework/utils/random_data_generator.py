@@ -21,6 +21,24 @@ class DataGenerator:
             res += 1
         return res
 
+    @staticmethod
+    def _validate_string(string_: str, chars_types_: tuple) -> bool:
+        string_ = set(string_)
+        d = {chars_types_[i]: False for i in range(len(chars_types_))}
+        for char in string_:
+            for st in chars_types_:
+                if char in st:
+                    d[st] = True
+                    break
+        res = 0
+        for val in d.values():
+            if not val:
+                res += 1
+        if res > 0:
+            return False
+        else:
+            return True
+
     def generate_random_string_with_chosen_char_types(
             self,
             min_len: int = 0,
@@ -34,7 +52,8 @@ class DataGenerator:
             whitespace_: bool = False
     ) -> str | None:
         """Parameters ascii_lower_letters -...- whitespace_ determine whether characters
-        from the corresponding categories will be used. Min and max len define string length."""
+        from the corresponding categories will be used. Min and max len define string length.
+        This method can return incorrect result if string is short."""
         if max_len > 0 and 0 < min_len <= max_len:
             string_ = []
             length = random.randint(min_len, max_len)
@@ -67,16 +86,6 @@ class DataGenerator:
         else:
             logger.error("Can't string generate. Check are given max and min lengths.")
 
-    def get_rand_valid_password(self, min_len: int = 8, max_len: int = 18) -> str:
-        passw = self.generate_random_string_with_chosen_char_types(
-            min_len=min_len,
-            max_len=max_len,
-            ascii_lower_letters=True,
-            ascii_upper_letters=True,
-            digits_=True,
-        )
-        return passw
-
     def get_rand_valid_passw_for_a1qa_task(self) -> str:
         passw = self.generate_random_string_with_chosen_char_types(
             min_len=10,
@@ -86,7 +95,11 @@ class DataGenerator:
             digits_=True,
             cyrillic_lower_letters=True
         )
-        return passw
+        char_types = (self.lowercase_letters, self.uppercase_letters, self.digits, self.cyrillic_lowercase_letters)
+        if self._validate_string(passw, char_types):
+            return passw
+        else:
+            self.get_rand_valid_passw_for_a1qa_task()
 
     def get_rand_valid_email_name(self) -> str:
         e_name = self.generate_random_string_with_chosen_char_types(
@@ -96,7 +109,11 @@ class DataGenerator:
             ascii_upper_letters=True,
             digits_=True,
         )
-        return e_name
+        char_types = (self.lowercase_letters, self.uppercase_letters)
+        if self._validate_string(e_name, char_types):
+            return e_name
+        else:
+            self.get_rand_valid_email_name()
 
     def get_rand_valid_email_domain(self) -> str:
         e_dom = self.generate_random_string_with_chosen_char_types(
@@ -104,47 +121,76 @@ class DataGenerator:
             max_len=8,
             ascii_lower_letters=True,
         )
-        return e_dom
+        char_types = (self.lowercase_letters, )
+        if self._validate_string(e_dom, char_types):
+            return e_dom
+        else:
+            self.get_rand_valid_email_domain()
+
+    def __get_short_password(self) -> str:
+        passw = self.generate_random_string_with_chosen_char_types(
+            min_len=1,
+            max_len=9,
+            ascii_lower_letters=True,
+            ascii_upper_letters=True,
+            digits_=True,
+            cyrillic_lower_letters=True
+        )
+        char_types = (self.lowercase_letters, self.uppercase_letters, self.digits, self.cyrillic_lowercase_letters)
+        if self._validate_string(passw, char_types):
+            return passw
+        else:
+            self.__get_short_password()
+
+    def __get_password_without_digits(self) -> str:
+        passw = self.generate_random_string_with_chosen_char_types(
+            min_len=10,
+            max_len=25,
+            ascii_lower_letters=True,
+            ascii_upper_letters=True,
+            cyrillic_lower_letters=True
+        )
+        char_types = (self.lowercase_letters, self.uppercase_letters, self.cyrillic_lowercase_letters)
+        if self._validate_string(passw, char_types):
+            return passw
+        else:
+            self.__get_password_without_digits()
+
+    def __get_password_without_upper(self) -> str:
+        passw = self.generate_random_string_with_chosen_char_types(
+            min_len=10,
+            max_len=25,
+            ascii_lower_letters=True,
+            digits_=True,
+            cyrillic_lower_letters=True
+        )
+        char_types = (self.lowercase_letters, self.digits, self.cyrillic_lowercase_letters)
+        if self._validate_string(passw, char_types):
+            return passw
+        else:
+            self.__get_password_without_upper()
+
+    def __get_password_without_cyrillic(self) -> str:
+        passw = self.generate_random_string_with_chosen_char_types(
+            min_len=10,
+            max_len=25,
+            ascii_lower_letters=True,
+            ascii_upper_letters=True,
+            digits_=True,
+        )
+        char_types = (self.lowercase_letters, self.uppercase_letters, self.digits)
+        if self._validate_string(passw, char_types):
+            return passw
+        else:
+            self.__get_password_without_cyrillic()
 
     def get_list_of_invalid_rand_passwords(self) -> list[str]:
         return [
             "",
             "           ",
-            self.generate_random_string_with_chosen_char_types(
-                min_len=1,
-                max_len=9,
-                ascii_lower_letters=True,
-                ascii_upper_letters=True,
-                digits_=True,
-                cyrillic_lower_letters=True
-            ),
-            self.generate_random_string_with_chosen_char_types(
-                min_len=10,
-                max_len=25,
-                ascii_lower_letters=True,
-                ascii_upper_letters=True,
-                cyrillic_lower_letters=True
-            ),
-            self.generate_random_string_with_chosen_char_types(
-                min_len=10,
-                max_len=25,
-                ascii_lower_letters=True,
-                digits_=True,
-                cyrillic_lower_letters=True
-            ),
-            self.generate_random_string_with_chosen_char_types(
-                min_len=10,
-                max_len=25,
-                ascii_lower_letters=True,
-                ascii_upper_letters=True,
-                digits_=True,
-            ),
-            self.generate_random_string_with_chosen_char_types(
-                min_len=10,
-                max_len=25,
-                ascii_lower_letters=True,
-                ascii_upper_letters=True,
-                digits_=True,
-                cyrillic_lower_letters=True
-            ),
+            self.__get_short_password(),
+            self.__get_password_without_digits(),
+            self.__get_password_without_upper(),
+            self.__get_password_without_cyrillic(),
+            self.get_rand_valid_passw_for_a1qa_task(),
         ]
