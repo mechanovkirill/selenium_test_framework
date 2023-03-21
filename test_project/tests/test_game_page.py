@@ -1,3 +1,5 @@
+import pytest
+from framework.utils.data_manager import DataManager
 from test_project.pages.main_page import MainPage
 from test_project.pages.game_page import GamePage
 
@@ -41,7 +43,13 @@ class TestGamePage:
         game_page.click_to_the_next_button()
         assert game_page.card_2_is_open() is True, "Card 2 is not opened."
 
-    def test_invalid_password(self):
+    @pytest.mark.parametrize(
+        "password",
+        DataManager().get_game_page_test_data().invalid_passwords,
+        ids=["void password", "just spaces", "short", "without digits",
+             "without upper", "without cyrillic", "without email characters"]
+    )
+    def test_invalid_password(self, password):
         main_page = MainPage()
         game_page = GamePage()
 
@@ -50,7 +58,8 @@ class TestGamePage:
         main_page.click_to_here_link()
         assert game_page.is_open() is True, "Game page is not open."
         game_page.input_random_valid_email()
-        game_page.input_random_valid_password()
+        game_page.input_invalid_password(password=password)
         game_page.accept_terms_and_conditions()
         game_page.click_to_the_next_button()
-        # assert game_page.card_2_is_open() is False, "Card 2 is opened."
+        assert game_page.is_open() is True, "Card 2 is opened."
+

@@ -9,7 +9,8 @@ class DataGenerator:
     lowercase_letters = string.ascii_lowercase
     uppercase_letters = string.ascii_uppercase
     digits = string.digits
-    cyrillic_chars = [chr(i) for i in range(0x0410, 0x045F)]
+    cyrillic_lowercase_letters = "".join([chr(i) for i in range(0x0431, 0x0450)])
+    cyrillic_uppercase_letters = "".join([chr(i) for i in range(0x0410, 0x0430)])
     punctuation = string.punctuation
     whitespace = string.whitespace
 
@@ -27,7 +28,8 @@ class DataGenerator:
             ascii_lower_letters: bool = False,
             ascii_upper_letters: bool = False,
             digits_: bool = False,
-            cyrillic_symbols: bool = False,
+            cyrillic_lower_letters: bool = False,
+            cyrillic_upper_letters: bool = False,
             punctuation_: bool = False,
             whitespace_: bool = False
     ) -> str | None:
@@ -37,16 +39,17 @@ class DataGenerator:
             string_ = []
             length = random.randint(min_len, max_len)
             params_number = 0
-            params = (ascii_lower_letters, ascii_upper_letters, digits_, cyrillic_symbols, punctuation_, whitespace_)
+            params = (ascii_lower_letters, ascii_upper_letters, digits_, cyrillic_lower_letters,
+                      cyrillic_upper_letters, punctuation_, whitespace_)
             char_types = (
                 self.lowercase_letters, self.uppercase_letters, self.digits,
-                self.cyrillic_chars, self.punctuation, self.whitespace,)
+                self.cyrillic_lowercase_letters, self.cyrillic_uppercase_letters, self.punctuation, self.whitespace,)
             for i in params:
                 params_number += self._calc(i)
             k = round(length / params_number)
             if k == 0:
                 k = 1
-            for n in range(params_number):
+            for n in range(len(params)):
                 if params[n] is True:
                     string_.extend(random.choices(char_types[n], k=k))
 
@@ -72,19 +75,17 @@ class DataGenerator:
             ascii_upper_letters=True,
             digits_=True,
         )
-        logger.info(f"Generated password {passw}")
         return passw
 
     def get_rand_valid_passw_for_a1qa_task(self) -> str:
         passw = self.generate_random_string_with_chosen_char_types(
             min_len=10,
-            max_len=15,
+            max_len=25,
             ascii_lower_letters=True,
             ascii_upper_letters=True,
             digits_=True,
-            cyrillic_symbols=True
+            cyrillic_lower_letters=True
         )
-        logger.info(f"Generated valid password {passw}")
         return passw
 
     def get_rand_valid_email_name(self) -> str:
@@ -95,7 +96,6 @@ class DataGenerator:
             ascii_upper_letters=True,
             digits_=True,
         )
-        logger.info(f"Generated valid email name {e_name}")
         return e_name
 
     def get_rand_valid_email_domain(self) -> str:
@@ -104,5 +104,47 @@ class DataGenerator:
             max_len=8,
             ascii_lower_letters=True,
         )
-        logger.info(f"Generated valid email domain {e_dom}")
         return e_dom
+
+    def get_list_of_invalid_rand_passwords(self) -> list[str]:
+        return [
+            "",
+            "           ",
+            self.generate_random_string_with_chosen_char_types(
+                min_len=1,
+                max_len=9,
+                ascii_lower_letters=True,
+                ascii_upper_letters=True,
+                digits_=True,
+                cyrillic_lower_letters=True
+            ),
+            self.generate_random_string_with_chosen_char_types(
+                min_len=10,
+                max_len=25,
+                ascii_lower_letters=True,
+                ascii_upper_letters=True,
+                cyrillic_lower_letters=True
+            ),
+            self.generate_random_string_with_chosen_char_types(
+                min_len=10,
+                max_len=25,
+                ascii_lower_letters=True,
+                digits_=True,
+                cyrillic_lower_letters=True
+            ),
+            self.generate_random_string_with_chosen_char_types(
+                min_len=10,
+                max_len=25,
+                ascii_lower_letters=True,
+                ascii_upper_letters=True,
+                digits_=True,
+            ),
+            self.generate_random_string_with_chosen_char_types(
+                min_len=10,
+                max_len=25,
+                ascii_lower_letters=True,
+                ascii_upper_letters=True,
+                digits_=True,
+                cyrillic_lower_letters=True
+            ),
+        ]

@@ -12,7 +12,7 @@ class GamePage(BaseForm):
     EMAIL_INPUT = (By.XPATH, "//input[contains(@placeholder, 'email')]")
     DOMAIN_INPUT = (By.XPATH, "//input[contains(@placeholder, 'Domain')]")
     DROPDOWN_OTHER = (By.XPATH, "//div[@class='dropdown__field' and text()='other']")
-    DOMAIN_ZONE = (By.XPATH, "//div[@class='dropdown__list']//div[text()='.org']")
+    DOMAIN_ZONE_DOT_ORG = (By.XPATH, "//div[@class='dropdown__list']//div[text()='.org']")
     ACCEPT_TERMS_CHECKBOX = (By.XPATH, "//span[contains(@class, 'checkbox__check')]")
     NEXT_LINK = (By.XPATH, "//a[text()='Next']")
     CARD_2_DOWNLOAD_BUTTON = (By.XPATH, "//button[@name='button' and text()='Download image']")
@@ -20,7 +20,7 @@ class GamePage(BaseForm):
     def __init__(self) -> None:
         super().__init__(
             unique_locator=(By.XPATH, "//input[contains(@placeholder, 'Password')]"),
-            name='Game_Page'
+            name='Game Page(card 1)'
         )
         self.test_data = DataManager().get_game_page_test_data()
         # elements:
@@ -31,7 +31,7 @@ class GamePage(BaseForm):
         self.email_domain_input = Input(self.DOMAIN_INPUT, 'Email domain input')
         self.password_input = Input(self.PASSWORD_INPUT, 'Password input')
         self.dropdown_field = Div(self.DROPDOWN_OTHER, 'Dropdown select menu')
-        self.domain_zone = Div(self.DOMAIN_ZONE, 'Domain zone select')
+        self.domain_zone_dot_org = Div(self.DOMAIN_ZONE_DOT_ORG, 'Domain zone select')
         self.accept_terms_checkbox = Span(self.ACCEPT_TERMS_CHECKBOX, 'Accept terms checkbox')
         self.next_link = Link(self.NEXT_LINK, 'Next link')
         self.card_2_download_button = Button(self.CARD_2_DOWNLOAD_BUTTON, 'Download button')
@@ -51,7 +51,7 @@ class GamePage(BaseForm):
         self.email_domain_input.clear()
         self.email_domain_input.fill_the_field(self.test_data.valid_rand_email_domain)
         self.dropdown_field.click()
-        self.domain_zone.click()
+        self.domain_zone_dot_org.click()
 
     def input_random_valid_password(self) -> None:
         self.password_input.clear()
@@ -66,3 +66,7 @@ class GamePage(BaseForm):
 
     def card_2_is_open(self) -> bool:
         return self.card_2_download_button.is_displayed()
+
+    def input_invalid_password(self, password) -> None:
+        self.password_input.clear()
+        self.password_input.fill_the_field(password)
