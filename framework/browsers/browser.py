@@ -21,7 +21,7 @@ class Browser:
             cls.config = factory_data[1]
             logger.info(
                 f"| Launch [{cls.config.browser}] browser with options {cls.config.browsers_options} "
-                f"{cls.config.chrome_options if cls.config.browser == 'Chrome' else cls.config.firefox_options}."
+                f"{cls.config.chrome_options if cls.config.browser.lower() == 'chrome' else cls.config.firefox_options}."
             )
             return cls.driver
 

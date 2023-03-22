@@ -38,7 +38,7 @@ class GamePageTestData:
 
 class DataManager:
     """DataManager read data from json files, put data to dataclasses
-    and hand over dataclasses to other project classes."""
+    and hand over dataclasses to other project entities."""
 
     @staticmethod
     def _json_read(json_file: str) -> dict:
@@ -70,7 +70,7 @@ class DataManager:
     def get_game_page_test_data() -> GamePageTestData:
         e_name = DataGenerator().get_rand_valid_email_name()
         e_dom = DataGenerator().get_rand_valid_email_domain()
-        password = DataGenerator().get_rand_valid_passw_for_a1qa_task() + random.choice(e_name)
+        password = DataGenerator().get_rand_valid_password_for_a1qa_task() + random.choice(e_name)
         invalid_password = DataGenerator().get_list_of_invalid_rand_passwords()
         # add email character to passwords
         for s in range(len(invalid_password)):

@@ -15,14 +15,9 @@ class DataGenerator:
     whitespace = string.whitespace
 
     @staticmethod
-    def _calc(value):
-        res = 0
-        if value is True:
-            res += 1
-        return res
-
-    @staticmethod
-    def _validate_string(string_: str, chars_types_: tuple) -> bool:
+    def _validate_string(string_: str, chars_types_: tuple, min_len: int, max_len: int) -> bool:
+        if min_len > len(string_) > max_len:
+            return False
         string_ = set(string_)
         d = {chars_types_[i]: False for i in range(len(chars_types_))}
         for char in string_:
@@ -53,32 +48,24 @@ class DataGenerator:
     ) -> str | None:
         """Parameters ascii_lower_letters -...- whitespace_ determine whether characters
         from the corresponding categories will be used. Min and max len define string length.
-        This method can return incorrect result if string is short."""
+        WARNING: if len string is less than number of char_types an INVALID string will be returned."""
         if max_len > 0 and 0 < min_len <= max_len:
             string_ = []
             length = random.randint(min_len, max_len)
-            params_number = 0
             params = (ascii_lower_letters, ascii_upper_letters, digits_, cyrillic_lower_letters,
                       cyrillic_upper_letters, punctuation_, whitespace_)
             char_types = (
                 self.lowercase_letters, self.uppercase_letters, self.digits,
                 self.cyrillic_lowercase_letters, self.cyrillic_uppercase_letters, self.punctuation, self.whitespace,)
-            for i in params:
-                params_number += self._calc(i)
-            k = round(length / params_number)
-            if k == 0:
-                k = 1
-            for n in range(len(params)):
-                if params[n] is True:
-                    string_.extend(random.choices(char_types[n], k=k))
+
+            while len(string_) < length:
+                for i in range(len(params)):
+                    if params[i] is True:
+                        string_.append(random.choice(char_types[i]))
+                        if len(string_) == length:
+                            break
 
             random.shuffle(string_)
-
-            while min_len > len(string_) or len(string_) > max_len:
-                if len(string_) > max_len:
-                    string_.pop(0)
-                if len(string_) < min_len:
-                    string_.append(random.choice(string_))
 
             string_ = "".join(string_)
 
@@ -86,7 +73,7 @@ class DataGenerator:
         else:
             logger.error("Can't string generate. Check are given max and min lengths.")
 
-    def get_rand_valid_passw_for_a1qa_task(self) -> str:
+    def get_rand_valid_password_for_a1qa_task(self) -> str:
         passw = self.generate_random_string_with_chosen_char_types(
             min_len=10,
             max_len=25,
@@ -96,10 +83,10 @@ class DataGenerator:
             cyrillic_lower_letters=True
         )
         char_types = (self.lowercase_letters, self.uppercase_letters, self.digits, self.cyrillic_lowercase_letters)
-        if self._validate_string(passw, char_types):
+        if self._validate_string(passw, char_types, 10, 25):
             return passw
         else:
-            self.get_rand_valid_passw_for_a1qa_task()
+            self.get_rand_valid_password_for_a1qa_task()
 
     def get_rand_valid_email_name(self) -> str:
         e_name = self.generate_random_string_with_chosen_char_types(
@@ -110,7 +97,7 @@ class DataGenerator:
             digits_=True,
         )
         char_types = (self.lowercase_letters, self.uppercase_letters)
-        if self._validate_string(e_name, char_types):
+        if self._validate_string(e_name, char_types, 6, 12):
             return e_name
         else:
             self.get_rand_valid_email_name()
@@ -121,8 +108,8 @@ class DataGenerator:
             max_len=8,
             ascii_lower_letters=True,
         )
-        char_types = (self.lowercase_letters, )
-        if self._validate_string(e_dom, char_types):
+        char_types = (self.lowercase_letters,)
+        if self._validate_string(e_dom, char_types, 2, 8):
             return e_dom
         else:
             self.get_rand_valid_email_domain()
@@ -136,11 +123,7 @@ class DataGenerator:
             digits_=True,
             cyrillic_lower_letters=True
         )
-        char_types = (self.lowercase_letters, self.uppercase_letters, self.digits, self.cyrillic_lowercase_letters)
-        if self._validate_string(passw, char_types):
-            return passw
-        else:
-            self.__get_short_password()
+        return passw
 
     def __get_password_without_digits(self) -> str:
         passw = self.generate_random_string_with_chosen_char_types(
@@ -151,7 +134,7 @@ class DataGenerator:
             cyrillic_lower_letters=True
         )
         char_types = (self.lowercase_letters, self.uppercase_letters, self.cyrillic_lowercase_letters)
-        if self._validate_string(passw, char_types):
+        if self._validate_string(passw, char_types, 10, 25):
             return passw
         else:
             self.__get_password_without_digits()
@@ -165,7 +148,7 @@ class DataGenerator:
             cyrillic_lower_letters=True
         )
         char_types = (self.lowercase_letters, self.digits, self.cyrillic_lowercase_letters)
-        if self._validate_string(passw, char_types):
+        if self._validate_string(passw, char_types, 10, 25):
             return passw
         else:
             self.__get_password_without_upper()
@@ -179,7 +162,7 @@ class DataGenerator:
             digits_=True,
         )
         char_types = (self.lowercase_letters, self.uppercase_letters, self.digits)
-        if self._validate_string(passw, char_types):
+        if self._validate_string(passw, char_types, 10, 25):
             return passw
         else:
             self.__get_password_without_cyrillic()
@@ -192,5 +175,5 @@ class DataGenerator:
             self.__get_password_without_digits(),
             self.__get_password_without_upper(),
             self.__get_password_without_cyrillic(),
-            self.get_rand_valid_passw_for_a1qa_task(),
+            self.get_rand_valid_password_for_a1qa_task(),
         ]
