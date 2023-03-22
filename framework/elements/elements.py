@@ -22,14 +22,14 @@ class Input(BaseElement):
     def clear(self) -> None:
         try:
             self.wait_for.visibility_of_element_located(self.locator, self.name).clear()
-            logger.info(f'| {self.name} clear text.')
+            logger.info(f'| {self.name} text cleared.')
         except WebDriverException:
             logger.warning(f'| Clearing text failed to {self.name} {traceback.format_exc()}.')
 
     def fill_the_field(self, value: str | float) -> None:
         try:
             self.wait_for.visibility_of_element_located(self.locator, self.name).send_keys(value)
-            logger.info(f'| {self.name} sending a keys {value}.')
+            logger.info(f'| {self.name} keys was sent: {value}.')
         except WebDriverException:
             logger.warning(f'| Filling the fill failed to {self.name} {traceback.format_exc()}.')
 

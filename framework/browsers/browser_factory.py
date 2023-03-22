@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 class BrowserFactory:
     """Receives are options from config.json file and return tuple contained driver instance according to configuration
     and dataclass with configuration.
-    Supported browsers are Chrome, Firefox."""
+    Supported browsers are Chrome, Firefox. How to with config file described in the README."""
 
     def __init__(self, config_=DataManager()):
         self.config: ConfigData = config_.get_config_data()
