@@ -29,7 +29,7 @@ class Input(BaseElement):
     def fill_the_field(self, value: str | float) -> None:
         try:
             self.wait_for.visibility_of_element_located(self.locator, self.name).send_keys(value)
-            logger.info(f'| {self.name} keys was sent: {value}.')
+            logger.info(f'| {self.name} keys was sent: {value.encode("utf8")}.')
         except WebDriverException:
             logger.warning(f'| Filling the fill failed to {self.name} {traceback.format_exc()}.')
 

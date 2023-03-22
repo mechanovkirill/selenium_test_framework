@@ -12,15 +12,23 @@ LOGGING_CONFIG = {
         }
     },
     'handlers': {
-        'default': {
+        'warning': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / "test_project/testing.log",
+            'filename': BASE_DIR / "test_project/warnings.log",
             'maxBytes': 10000000,
             'backupCount': 20,
             'level': 'WARNING',
             'formatter': 'verbose',
         },
-        'info': {
+        'info_file': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': BASE_DIR / "test_project/info_logs.log",
+            'maxBytes': 10000000,
+            'backupCount': 20,
+            'level': 'INFO',
+            'formatter': 'verbose',
+        },
+        'info_stdout': {
             'level': 'INFO',
             'formatter': 'verbose',
             'class': 'logging.StreamHandler',
@@ -29,8 +37,8 @@ LOGGING_CONFIG = {
     },
     'loggers': {
         '': {
-            'level': 'WARNING' if DEBUG == 'False' else 'INFO',
-            'handlers': ['default' if DEBUG == 'False' else 'info'],
+            'level': 'INFO',
+            'handlers': ['warning', 'info_file' if DEBUG == 'False' else 'info_stdout'],
         }
     },
 }
