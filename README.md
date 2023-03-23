@@ -8,7 +8,7 @@ Short options guid:
       It is supporting capabilities page_load_strategy and browser_name.
 
 3. "Chrome_options" and "Firefox_options" accepts browser specific functionality options.
-      Syntax: "Chrome_options": ["--headless=new", "--start-maximized"],
+      Syntax: "Chrome_options": ["--headless=new", "--start-maximized"], or  "Firefox_options": [],
 
 4. "Explicit_wait_timeout" is common time for explicit waits in project. Accepts float.
       Syntax:   "Explicit_wait_timeout": 10,

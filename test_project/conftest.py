@@ -27,4 +27,6 @@ def main_fixture(request):
             BASE_DIR, 'test_project', 'screenshots', f'{date_time}.png'
         )
         Browser().take_screenshot(path_filename)
+        #  I couldn't find easy way to take screenshots with browser address string.
+        #  And I did not create a bicycle, because I suspect that exists packages will be used in the work.
     Browser().quit()
