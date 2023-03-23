@@ -1,3 +1,5 @@
+import typing
+
 from selenium.webdriver.remote import webdriver
 from framework.browsers.browser_factory import BrowserFactory
 from framework.browsers.js_scripts import JSActions
@@ -35,3 +37,7 @@ class Browser:
 
     def js_scroll_into_view(self, element) -> None:
         JSActions(self.get_driver()).scroll_into_view(element)
+
+    def take_screenshot(self, path_file: str) -> None:
+        self.get_driver().save_screenshot(path_file)
+
