@@ -1,5 +1,8 @@
 import traceback
 from selenium.common import WebDriverException
+
+from selenium.webdriver.remote import webelement
+
 from framework.elements.base_element import BaseElement
 import logging
 
@@ -36,3 +39,13 @@ class Input(BaseElement):
 
 class Span(BaseElement):
     pass
+
+
+class Elements(BaseElement):
+    def find_visible_elements(self) -> webelement:
+        try:
+            elements = self.wait_for.visibility_of_all_elements_located(self.locator)
+            logger.info(f"| Visible elements {self.name} is find.")
+            return elements
+        except WebDriverException:
+            logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")

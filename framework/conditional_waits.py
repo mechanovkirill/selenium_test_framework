@@ -43,3 +43,15 @@ class Waits:
         return self.web_driver_wait(f"visibility_of_element_located {name}").until(
             (expected_conditions.visibility_of_element_located(locator))
         )
+
+    def elements_to_be_present(self, locator: tuple[By, str], name: str = "") -> webelement:
+        """name param is not required"""
+        return self.web_driver_wait(f"elements_to_be_present {name}").until(
+            expected_conditions.presence_of_all_elements_located(locator)
+        )
+
+    def visibility_of_all_elements_located(self, locator: tuple[By, str], name: str = "") -> webelement:
+        """name param is not required"""
+        return self.web_driver_wait(f"visibility_of_all_elements_located {name}").until(
+            expected_conditions.visibility_of_all_elements_located(locator)
+        )

@@ -1,6 +1,7 @@
+import random
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
-from framework.elements.elements import Button, Div, Input, Span, Link
+from framework.elements.elements import Button, Div, Input, Span, Link, Elements
 from framework.utils.data_manager import DataManager
 
 
@@ -12,10 +13,13 @@ class GamePage(BaseForm):
     EMAIL_INPUT = (By.XPATH, "//input[contains(@placeholder, 'email')]")
     DOMAIN_INPUT = (By.XPATH, "//input[contains(@placeholder, 'Domain')]")
     DROPDOWN_OTHER = (By.XPATH, "//div[@class='dropdown__field' and text()='other']")
-    DOMAIN_ZONE_DOT_ORG = (By.XPATH, "//div[@class='dropdown__list']//div[text()='.org']")
+    TOP_LVL_DOMAINS = (By.XPATH, "//div[@class='dropdown__list-item']")
+    INVALID_1_TOP_LVL_DOMAIN = (By.XPATH, "//div[@class='dropdown__list']//div[text()='other']")
+    INVALID_2_TOP_LVL_DOMAIN = (By.XPATH, "//div[@class='dropdown__list']//div[text()='.jpg']")
     ACCEPT_TERMS_CHECKBOX = (By.XPATH, "//span[contains(@class, 'checkbox__check')]")
     NEXT_LINK = (By.XPATH, "//a[text()='Next']")
     CARD_2_DOWNLOAD_BUTTON = (By.XPATH, "//button[@name='button' and text()='Download image']")
+    UPLOAD_IMAGE_LINK = (By.XPATH, "//a[contains(@class, 'avatar') and text()='upload']")
 
     def __init__(self) -> None:
         super().__init__(
@@ -31,10 +35,13 @@ class GamePage(BaseForm):
         self.email_domain_input = Input(self.DOMAIN_INPUT, 'Email domain input')
         self.password_input = Input(self.PASSWORD_INPUT, 'Password input')
         self.dropdown_field = Div(self.DROPDOWN_OTHER, 'Dropdown select menu')
-        self.domain_zone_dot_org = Div(self.DOMAIN_ZONE_DOT_ORG, 'Domain zone select')
+        self.top_level_domains = Elements(self.TOP_LVL_DOMAINS, 'Random top level domain')
+        self.invalid_top_lvl_domain_1 = Div(self.INVALID_1_TOP_LVL_DOMAIN, 'Top level domain "other"')
+        self.invalid_top_lvl_domain_2 = Div(self.INVALID_2_TOP_LVL_DOMAIN, 'Top level domain ".jpg"')
         self.accept_terms_checkbox = Span(self.ACCEPT_TERMS_CHECKBOX, 'Accept terms checkbox')
         self.next_link = Link(self.NEXT_LINK, 'Next link')
         self.card_2_download_button = Button(self.CARD_2_DOWNLOAD_BUTTON, 'Download button')
+        self.upload_image_link = Link(self.UPLOAD_IMAGE_LINK, 'Upload image link')
 
     def click_to_help_button(self) -> None:
         self.help_button.click()
@@ -51,7 +58,9 @@ class GamePage(BaseForm):
         self.email_domain_input.clear()
         self.email_domain_input.fill_the_field(self.test_data.valid_rand_email_domain)
         self.dropdown_field.click()
-        self.domain_zone_dot_org.click()
+        valid_top_level_domains = self.top_level_domains.find_visible_elements()
+        random_domain = random.randint(0, len(valid_top_level_domains)-2)
+        valid_top_level_domains[random_domain].click()
 
     def input_random_valid_password(self) -> None:
         self.password_input.clear()
@@ -70,3 +79,15 @@ class GamePage(BaseForm):
     def input_random_invalid_password(self, password) -> None:
         self.password_input.clear()
         self.password_input.fill_the_field(password)
+
+    def input_invalid_email(self, domain) -> None:
+        self.email_input.clear()
+        self.email_input.fill_the_field(self.test_data.valid_rand_email_name)
+        self.email_domain_input.clear()
+        self.email_domain_input.fill_the_field(self.test_data.valid_rand_email_domain)
+        self.dropdown_field.click()
+        top_lvl_domain = (self.invalid_top_lvl_domain_1 if domain == 'other' else self.invalid_top_lvl_domain_2)
+        top_lvl_domain.click()
+
+    # def upload_valid_image(self):
+    #     self.upload_image_link.
