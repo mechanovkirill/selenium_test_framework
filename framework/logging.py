@@ -14,7 +14,7 @@ LOGGING_CONFIG = {
     'handlers': {
         'warning': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / "test_project/warnings.log",
+            'filename': BASE_DIR / "test_project/logs/warnings.log",
             'maxBytes': 10000000,
             'backupCount': 2,
             'level': 'WARNING',
@@ -22,7 +22,7 @@ LOGGING_CONFIG = {
         },
         'info_file': {
             'class': 'logging.handlers.RotatingFileHandler',
-            'filename': BASE_DIR / "test_project/info_logs.log",
+            'filename': BASE_DIR / "test_project/logs/info_logs.log",
             'maxBytes': 10000000,
             'backupCount': 2,
             'level': 'INFO',
