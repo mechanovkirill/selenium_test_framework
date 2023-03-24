@@ -76,20 +76,21 @@ class TestGamePage:
         game_page.click_to_the_next_button()
         assert game_page.is_open() is True, "Card 2 is opened."
 
-    # def test_valid_image_upload(self):
-    #     main_page = MainPage()
-    #     game_page = GamePage()
-    #
-    #     main_page.open()
-    #     assert main_page.is_open() is True, "Main page is not opened."
-    #     main_page.click_to_here_link()
-    #     assert game_page.is_open() is True, "Game page is not open."
-    #     game_page.input_random_valid_email()
-    #     game_page.input_random_valid_password()
-    #     game_page.accept_terms_and_conditions()
-    #     game_page.click_to_the_next_button()
-    #     assert game_page.card_2_is_open() is True, "Card 2 is not opened."
-        # game_page.upload_valid_image()
-        # game_page.select_3_checkboxes()
-        # game_page.click_to_the_card_2_next_button()
-        # assert game_page.card_3_is_open() is True, "Card 3 is not opened."
+    @pytest.mark.parametrize('num', [x for x in range(10)])
+    def test_valid_image_upload(self, num):
+        main_page = MainPage()
+        game_page = GamePage()
+
+        main_page.open()
+        assert main_page.is_open() is True, "Main page is not opened."
+        main_page.click_to_here_link()
+        assert game_page.is_open() is True, "Game page is not open."
+        game_page.input_random_valid_email()
+        game_page.input_random_valid_password()
+        game_page.accept_terms_and_conditions()
+        game_page.click_to_the_next_button()
+        assert game_page.card_2_is_open() is True, "Card 2 is not opened."
+        game_page.upload_valid_image()
+        game_page.select_3_checkboxes()
+        game_page.click_to_the_card_2_next_button()
+        assert game_page.card_3_is_open() is True, "Card 3 is not opened."

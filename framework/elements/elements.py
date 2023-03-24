@@ -1,16 +1,29 @@
 import traceback
 from selenium.common import WebDriverException
-
 from selenium.webdriver.remote import webelement
-
 from framework.elements.base_element import BaseElement
 import logging
 
 logger = logging.getLogger(__name__)
 
 
+class BaseMultipleElements(BaseElement):
+    def find_visible_elements(self) -> webelement:
+        try:
+            elements = self.wait_for.visibility_of_all_elements_located(self.locator)
+            logger.info(f"| Visible elements {self.name} is find.")
+            return elements
+        except WebDriverException:
+            logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")
+
+
 class Link(BaseElement):
-    pass
+    def send_keys(self, value: str | float) -> None:
+        try:
+            self.wait_for.visibility_of_element_located(self.locator, self.name).send_keys(value)
+            logger.info(f'| {self.name} the following keys was sent: {value.encode("utf8")}.')
+        except WebDriverException:
+            logger.warning(f'| Keys sending failed to {self.name} {traceback.format_exc()}.')
 
 
 class Button(BaseElement):
@@ -32,7 +45,7 @@ class Input(BaseElement):
     def fill_the_field(self, value: str | float) -> None:
         try:
             self.wait_for.visibility_of_element_located(self.locator, self.name).send_keys(value)
-            logger.info(f'| {self.name} keys was sent: {value.encode("utf8")}.')
+            logger.info(f'| {self.name} the following keys was sent: {value.encode("utf8")}.')
         except WebDriverException:
             logger.warning(f'| Filling the fill failed to {self.name} {traceback.format_exc()}.')
 
@@ -41,11 +54,16 @@ class Span(BaseElement):
     pass
 
 
-class Elements(BaseElement):
-    def find_visible_elements(self) -> webelement:
+class MultipleDivs(BaseMultipleElements):
+    pass
+
+
+class MultipleCheckboxes(BaseMultipleElements):
+    def is_selected(self) -> bool:
         try:
-            elements = self.wait_for.visibility_of_all_elements_located(self.locator)
-            logger.info(f"| Visible elements {self.name} is find.")
-            return elements
+            is_selected = self.wait_for.visibility_of_all_elements_located(self.locator).is_selected()
+            # logger.info(f"| Visible elements {self.name} is find.")
+            return is_selected
         except WebDriverException:
-            logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")
+            pass # logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")
+
