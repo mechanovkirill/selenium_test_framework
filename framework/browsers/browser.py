@@ -1,5 +1,4 @@
-import typing
-
+from framework.browsers.pyautogui_scripts import PyautoguiActions
 from selenium.webdriver.remote import webdriver
 from framework.browsers.browser_factory import BrowserFactory
 from framework.browsers.js_scripts import JSActions
@@ -41,3 +40,7 @@ class Browser:
     def take_screenshot(self, path_file: str) -> None:
         self.get_driver().save_screenshot(path_file)
 
+    @staticmethod
+    def paste_text_into_active_window_field_and_enter_via_pyautogui(text):
+        """Keyboard layout must be En!"""
+        PyautoguiActions.paste_text_into_active_window_field_and_enter(text)
