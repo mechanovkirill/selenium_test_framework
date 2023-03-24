@@ -4,6 +4,7 @@ import json
 import os
 from pathlib import Path
 from framework.utils.random_data_generator import DataGenerator
+from framework.utils.image_generator import create_image
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 CONF_FILE_JSON = os.path.join(BASE_DIR, "config.json")
@@ -34,6 +35,7 @@ class GamePageTestData:
     valid_rand_email_domain: str
     valid_rand_password: str
     invalid_passwords: list[str]
+    image: str
 
 
 class DataManager:
@@ -97,5 +99,6 @@ class DataManager:
             valid_rand_email_domain=e_dom,
             valid_rand_password=password,
             invalid_passwords=invalid_password,
+            image=create_image((100, 100), (100, 255, 100)),
         )
         return test_data
