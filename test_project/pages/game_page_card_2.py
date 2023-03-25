@@ -1,4 +1,5 @@
 import random
+
 from framework.base_form import BaseForm
 from selenium.webdriver.common.by import By
 from framework.elements.elements import Button, Span, Link, MultipleCheckboxes
@@ -8,7 +9,7 @@ from framework.utils.data_manager import DataManager
 class GamePageCardTwo(BaseForm):
     UPLOAD_IMAGE_LINK = (By.XPATH, "//a[contains(@class, 'avatar') and text()='upload']")
     UNSELECT_ALL_CHECKBOX = (By.XPATH, "//label[@for='interest_unselectall']//span[contains(@class, 'icon')]")
-    ALL_CHECKBOXES = (By.XPATH, "//span[contains(@class, 'icon icon-check checkbox__check')]")
+    ALL_CHECKBOXES = (By.XPATH, "//div[@class='avatar-and-interests__interests-list']//span[@class='checkbox__box']")
     NEXT_BUTTON_CARD_2 = (By.XPATH, "//button[@name='button' and text()='Next']")
     CARD_3_IS_UNIQUE_LOCATOR = (By.XPATH, "//div[contains(@class, 'toggle-button') and text()='Male']")
 

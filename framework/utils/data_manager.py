@@ -51,7 +51,7 @@ class DataManager:
     def get_config_data(self) -> ConfigData:
         conf_data = self._json_read(CONF_FILE_JSON)
         config = ConfigData(
-            browser=conf_data['Browser'],
+            browser=conf_data['Browser'].lower(),
             browsers_options=tuple(conf_data['Common_browsers_options']),
             chrome_options=tuple(conf_data['Chrome_options']),
             firefox_options=tuple(conf_data['Firefox_options']),

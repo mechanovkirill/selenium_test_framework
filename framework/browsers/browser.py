@@ -1,8 +1,11 @@
+import traceback
+from selenium.common import WebDriverException
 from framework.browsers.pyautogui_scripts import PyautoguiActions
-from selenium.webdriver.remote import webdriver
+from selenium.webdriver.remote import webdriver, webelement
 from framework.browsers.browser_factory import BrowserFactory
 from framework.browsers.js_scripts import JSActions
 from framework.utils.data_manager import ConfigData
+from framework.browsers.webdriver_browser_actions import WebdriverBrowserActions
 import logging
 
 logger = logging.getLogger(__name__)
@@ -35,12 +38,27 @@ class Browser:
         self.get_driver().get(url)
 
     def js_scroll_into_view(self, element) -> None:
-        JSActions(self.get_driver()).scroll_into_view(element)
+        try:
+            JSActions(self.get_driver()).scroll_into_view(element)
+        except WebDriverException:
+            logger.error(f"js_scroll_into_view failed {traceback.format_exc()}")
 
     def take_screenshot(self, path_file: str) -> None:
-        self.get_driver().save_screenshot(path_file)
+        try:
+            self.get_driver().save_screenshot(path_file)
+        except WebDriverException:
+            logger.error(f"take_screenshot failed {traceback.format_exc()}")
 
     @staticmethod
     def paste_text_into_active_window_field_and_enter_via_pyautogui(text):
         """Keyboard layout must be En!"""
-        PyautoguiActions.paste_text_into_active_window_field_and_enter(text)
+        try:
+            PyautoguiActions.paste_text_into_active_window_field_and_enter(text)
+        except WebDriverException:
+            logger.error(f"paste_text_into_active_window_field_and_enter_via_pyautogui failed {traceback.format_exc()}")
+
+    def scroll_to_element(self, web_element: webelement) -> None:
+        try:
+            WebdriverBrowserActions(self.get_driver()).scroll_to_element(web_element)
+        except WebDriverException:
+            logger.error(f"scroll_to_element failed {traceback.format_exc()}")

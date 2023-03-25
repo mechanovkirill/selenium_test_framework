@@ -8,10 +8,10 @@ logger = logging.getLogger(__name__)
 
 
 class BaseMultipleElements(BaseElement):
-    def find_visible_elements(self) -> webelement:
+    def find_visible_elements(self) -> list[webelement]:
         try:
             elements = self.wait_for.visibility_of_all_elements_located(self.locator)
-            logger.info(f"| Visible elements {self.name} is find.")
+            logger.info(f"| Visible elements {self.name} are find.")
             return elements
         except WebDriverException:
             logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")
@@ -62,8 +62,7 @@ class MultipleCheckboxes(BaseMultipleElements):
     def is_selected(self) -> bool:
         try:
             is_selected = self.wait_for.visibility_of_all_elements_located(self.locator).is_selected()
-            # logger.info(f"| Visible elements {self.name} is find.")
+            logger.info(f"| Method is_selected applied to {self.name}.")
             return is_selected
         except WebDriverException:
-            pass # logger.warning(f"| Method find_visible_elements {self.name} failed {traceback.format_exc()}")
-
+            logger.warning(f"| Method is_selected {self.name} failed {traceback.format_exc()}")
